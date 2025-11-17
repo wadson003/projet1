@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Prêt Hypothécaire</title>
+   
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculateur de Prêt Hypothécaire </h1>
+
+        <form id="calculForm">
+            <label for="montantPret">Montant du prêt ($)</label>
+            <input type="number" id="montantPret"  min="1" required>
+
+            <label for="tauxInteretAnnuel">Taux d'intérêt annuel (%)</label>
+            <input type="number" id="tauxInteretAnnuel" min="0.01" step="0.01" required>
+
+            <label for="dureeAnnees">Durée en années</label>
+            <input type="number" id="dureeAnnees" min="1" required>
+
+            <button type="submit">Calculer le Paiement Mensuel</button>
+        </form>
+
+        <div id="resultat">
+            Paiement mensuel : <span id="montantMensuel">0.00 $</span>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            
+            const p = parseFloat(document.getElementById('montantPret').value); 
+            const tauxAnnuel = parseFloat(document.getElementById('tauxInteretAnnuel').value); 
+            const dureeAnnees = parseFloat(document.getElementById('dureeAnnees').value); 
+
+            
+            if (isNaN(p) || p <= 0) {
+                alert("Veuillez entrer un montant du prêt valide et positif.");
+                return;
+            }
+            if (isNaN(tauxAnnuel) || tauxAnnuel <= 0) {
+                alert("Veuillez entrer un taux d'intérêt annuel valide et positif.");
+                return;
+            }
+            if (isNaN(dureeAnnees) || dureeAnnees <= 0 || !Number.isInteger(dureeAnnees)) {
+                alert("Veuillez entrer une durée en années valide et un nombre entier positif.");
+                return;
+            }
+            const r = (tauxAnnuel / 100) / 12;
+
+
+            const n = dureeAnnees * 1
+            const termePuissance = Math.pow(1 + r, n);
+
+            const numerateur = p * r * termePuissance;
+
+            const denominateur = termePuissance - 1;
+
+            if (denominateur === 0) {
+
+                alert("Erreur de calcul. Le dénominateur est zéro.");
+                return;
+               }  
+
+    
+            const M = numerateur / denominateur;
+
+        
+            const paiementMensuelArrondi = M.toFixed(2);
+            
+            document.getElementById('montantMensuel').textContent = `${paiementMensuelArrondi} $`;
+
+            console.log(`Calcul réussi: M = ${paiementMensuelArrondi}`);
+            console.log(`P = ${p}, Taux annuel = ${tauxAnnuel}%, Durée = ${dureeAnnees} ans`);
+        });
+    </script>
+
+</body>
+
+    
+
+
+
+    
+</body>
+</html>
